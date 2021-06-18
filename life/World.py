@@ -103,7 +103,24 @@ class World:
         return sum(neighbours)
 
     def __is_valid_coordinate(self, coordinate: Tuple[int, int]) -> bool:
-        return False
+        """
+        Returns true if given coordinate is within state, else returns false
+
+        :param coordinate: an ordered pair of form (row index, column index) giving
+        the coordinate of a cell in the state
+
+        assumes: state is not a jagged array
+
+        :returns true if given coordinate is within state, else returns false
+        """
+        row_index, col_index = coordinate
+        min_row_index = min_col_index = 0
+        max_row_index = len(self.state) - 1
+        max_col_index = len(self.state[0]) - 1 # assumes state is not a jagged array
+
+        is_valid_row_index = min_row_index <= row_index <= max_row_index
+        is_valid_col_index = min_col_index <= col_index <= max_col_index
+        return is_valid_row_index and is_valid_col_index
 
     def __get_cell(self, coordinate: Tuple[int, int]) -> bool:
         """
