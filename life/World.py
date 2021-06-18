@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Tuple
+
 
 class World:
 
@@ -51,3 +52,19 @@ class World:
         :returns state
         """
         return self.state
+
+    def next_state(self):
+        """
+        Advances state one generation
+
+        :param none
+
+        :returns void
+        """
+        self.state = [
+            [self.__next_cell((i, j), is_live) for j, is_live in enumerate(row)]
+            for i, row in enumerate(self.state)
+        ]
+
+    def __next_cell(self, coordinate: Tuple[int, int], is_live: bool) -> bool:
+        return False
