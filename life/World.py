@@ -2,6 +2,21 @@ from typing import List, Tuple
 
 
 class World:
+    """
+    Represents a 2D world with cells that are live or dead
+
+    Fields:
+        state: List[List[bool]]
+            represents the state of the world as a 2D list of bool
+            where True represents live and False represents dead
+
+    Methods:
+        next_state()
+            advances state one generation
+
+        get_state() -> List[List[bool]]
+            returns state
+    """
 
     def __init__(self, initial_state: List[List[bool]]):
         """
