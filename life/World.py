@@ -67,4 +67,20 @@ class World:
         ]
 
     def __next_cell(self, coordinate: Tuple[int, int], is_live: bool) -> bool:
-        return False
+        """
+        Transitions cell with given coordinate to live or dead
+
+        :param coordinate: an ordered pair of form (row index, column index) giving
+        the coordinate of a cell in the state
+
+        :param is_live: the state of the cell (True if live, False if dead)
+
+        :returns next cell at given coordinate in state
+        """
+        live_neighbour_count = self.__live_neighbour_count(coordinate)
+        stays_live = is_live and live_neighbour_count in {2, 3}
+        is_born = not(is_live) and live_neighbour_count == 3
+        return stays_live or is_born
+
+    def __live_neighbour_count(self, coordinate: Tuple[int, int]) -> int:
+        return 0
