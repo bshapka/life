@@ -97,7 +97,7 @@ class World:
             self.__get_cell((row_index + i, col_index + j))
             for i in offsets
             for j in offsets
-            if not(row_index == col_index == 0)
+            if not(i == j == 0)
             and self.__is_valid_coordinate((row_index + i, col_index + j))
         ]
         return sum(neighbours)
