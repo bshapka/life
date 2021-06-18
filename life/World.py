@@ -106,4 +106,13 @@ class World:
         return False
 
     def __get_cell(self, coordinate: Tuple[int, int]) -> bool:
-        return False
+        """
+        Returns cell corresponding to given coordinate
+
+        :param coordinate: an ordered pair of form (row index, column index) giving
+        the coordinate of a cell in the state
+
+        :returns cell corresponding to given coordinate
+        """
+        row_index, col_index = coordinate
+        return self.state[row_index][col_index]
