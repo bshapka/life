@@ -83,4 +83,27 @@ class World:
         return stays_live or is_born
 
     def __live_neighbour_count(self, coordinate: Tuple[int, int]) -> int:
-        return 0
+        """
+        Returns count of live neighbouring cells to cell with given coordinate
+
+        :param coordinate: an ordered pair of form (row index, column index) giving
+        the coordinate of a cell in the state
+
+        :returns count of live neighbouring cells to cell with given coordinate
+        """
+        row_index, col_index = coordinate
+        offsets = range(-1, 2)
+        neighbours = [
+            self.__get_cell((row_index + i, col_index + j))
+            for i in offsets
+            for j in offsets
+            if not(row_index == col_index == 0)
+            and self.__is_valid_coordinate((row_index + i, col_index + j))
+        ]
+        return sum(neighbours)
+
+    def __is_valid_coordinate(self, coordinate: Tuple[int, int]) -> bool:
+        return False
+
+    def __get_cell(self, coordinate: Tuple[int, int]) -> bool:
+        return False
