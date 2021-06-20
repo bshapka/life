@@ -133,15 +133,13 @@ class World:
         :param coordinate: an ordered pair of form (row index, column index) giving
         the coordinate of a cell in the state
 
-        assumes: state is not a jagged array
-
         :returns true if given coordinate is within state, else returns false
         """
-        row_index, col_index = coordinate
         min_row_index = min_col_index = 0
-        max_row_index = len(self.state) - 1
-        max_col_index = len(self.state[0]) - 1 # assumes state is not a jagged array
+        length, width = self.get_dimensions()
+        max_row_index, max_col_index = width - 1, length - 1
 
+        row_index, col_index = coordinate
         is_valid_row_index = min_row_index <= row_index <= max_row_index
         is_valid_col_index = min_col_index <= col_index <= max_col_index
         return is_valid_row_index and is_valid_col_index
