@@ -52,9 +52,9 @@ class World:
                 row_length += 1
                 if type(cell) is not bool:
                     raise TypeError(
-                        "Argument state must be of type List[List[bool]].")
+                        "The state must be of type List[List[bool]].")
             if row_lengths != set() and row_length not in row_lengths:
-                raise ValueError("Argument state must not be a jagged array")
+                raise ValueError("The state must not be a jagged array")
             else:
                 row_lengths.add(row_length)
 
