@@ -118,11 +118,11 @@ class World:
         row_index, col_index = coordinate
         offsets = range(-1, 2)
         neighbours = [
-            self.__get_cell((row_index + i, col_index + j))
-            for i in offsets
-            for j in offsets
-            if not(i == j == 0)
-            and self.__is_valid_coordinate((row_index + i, col_index + j))
+            self.__get_cell((row_index + row_offset, col_index + col_offset))
+            for row_offset in offsets
+            for col_offset in offsets
+            if not(row_offset == col_offset == 0)
+            and self.__is_valid_coordinate((row_index + row_offset, col_index + col_offset))
         ]
         return sum(neighbours)
 
