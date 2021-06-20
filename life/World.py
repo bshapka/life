@@ -26,7 +26,7 @@ class World:
 
         :returns a new World
         """
-        self.__validate_state(initial_state)
+        World.__validate_state(initial_state)
         self.state = initial_state
 
     @staticmethod
