@@ -18,6 +18,7 @@ class Game:
         """
         self.__validate_cell_size(cell_size)
         if initial_state is not None:
+            self.__validate_state(initial_state, cell_size)
             self.world = World(initial_state)
         else:
             random_state = self.__get_random_state()
@@ -43,6 +44,9 @@ class Game:
         cell_is_too_big = any(d for d in screen_dimensions if cell_size > d)
         if cell_is_too_big:
             raise ValueError("Argument cell_size must not exceed any of the screen's dimensions.")
+
+    def __validate_state(self, state: List[List[bool]], cell_size: int):
+        pass
 
     def __get_random_state(self):
         pass
