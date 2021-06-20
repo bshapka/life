@@ -29,9 +29,13 @@ class World:
         self.__validate_state(initial_state)
         self.state = initial_state
 
-    def __validate_state(self, state: List[List[bool]]):
+    @staticmethod
+    def __validate_state(state: List[List[bool]]):
         """
         Validates a given state
+
+        Checks that state is of proper type and that state is not
+        a jagged array
 
         :raises TypeError if state contains a non-bool
 
@@ -50,7 +54,7 @@ class World:
                     raise TypeError(
                         "Argument state must be of type List[List[bool]].")
             if row_lengths != set() and row_length not in row_lengths:
-                raise ValueError("Argument must not be a jagged array")
+                raise ValueError("Argument state must not be a jagged array")
             else:
                 row_lengths.add(row_length)
 
@@ -90,7 +94,7 @@ class World:
         """
         live_neighbour_count = self.__live_neighbour_count(coordinate)
         stays_live = is_live and live_neighbour_count in {2, 3}
-        is_born = not(is_live) and live_neighbour_count == 3
+        is_born = not is_live and live_neighbour_count == 3
         return stays_live or is_born
 
     def __live_neighbour_count(self, coordinate: Tuple[int, int]) -> int:
