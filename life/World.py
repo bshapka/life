@@ -22,11 +22,7 @@ class World:
         """
         Instantiates a World
 
-        :raises TypeError if starting_state contains a non-bool
-
-        :raises ValueError if starting_state is a jagged array
-
-        :param starting_state: represents an initial state of the World
+        :param initial_state: represents an initial state of the World
 
         :returns a new World
         """
@@ -37,9 +33,9 @@ class World:
         """
         Validates a given state
 
-        :raises TypeError if starting_state contains a non-bool
+        :raises TypeError if state contains a non-bool
 
-        :raises ValueError if starting_state is a jagged array
+        :raises ValueError if state is a jagged array
 
         :param state: represents a state of the World
 
