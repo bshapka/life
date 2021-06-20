@@ -18,19 +18,19 @@ class World:
             returns state
     """
 
-    def __init__(self, initial_state: List[List[bool]]):
+    def __init__(self, initial_state: List[List[bool]]) -> None:
         """
         Instantiates a World
 
         :param initial_state: represents an initial state of the World
 
-        :returns a new World
+        :returns None
         """
         World.__validate_state(initial_state)
         self.state = initial_state
 
     @staticmethod
-    def __validate_state(state: List[List[bool]]):
+    def __validate_state(state: List[List[bool]]) -> None:
         """
         Validates a given state
 
@@ -43,7 +43,7 @@ class World:
 
         :param state: represents a state of the World
 
-        :returns void
+        :returns None
         """
         row_lengths = set()
         for row in state:
@@ -62,8 +62,6 @@ class World:
         """
         returns state
 
-        :param none
-
         :returns state
         """
         return self.state
@@ -71,8 +69,6 @@ class World:
     def get_dimensions(self) -> Tuple[int, int]:
         """
         Returns the dimensions of the state as an ordered pair of form (length, width)
-
-        :param none
 
         assumes: state is not a jagged array
 
@@ -83,11 +79,9 @@ class World:
             dimensions = (len(self.state[0]), len(self.state))
         return dimensions
 
-    def next_state(self):
+    def next_state(self) -> None:
         """
         Advances state one generation
-
-        :param none
 
         :returns void
         """

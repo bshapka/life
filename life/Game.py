@@ -6,15 +6,15 @@ from life.World import World
 
 
 class Game:
-    def __init__(self, cell_size: int, initial_state: List[List[bool]] = None):
+    def __init__(self, cell_size: int, initial_state: List[List[bool]] = None) -> None:
         """
         Instantiates a Game
 
         :param cell_size: the size of each cell in pixels
 
-        :param initial_state: an initial state of the World
+        :param initial_state: an initial state for a World
 
-        :returns a new World
+        :returns None
         """
         self.__validate_cell_size(cell_size)
         if initial_state is not None:
@@ -37,7 +37,7 @@ class Game:
         return dimensions
 
     @staticmethod
-    def __validate_cell_size(cell_size: int):
+    def __validate_cell_size(cell_size: int) -> None:
         """
         Validates a given cell_size
 
@@ -45,7 +45,7 @@ class Game:
 
         :param cell_size: the size of each cell in pixels
 
-        :returns void
+        :returns None
         """
         if cell_size < 0:
             raise ValueError("Argument cell_size cannot be negative.")
