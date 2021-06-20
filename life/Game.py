@@ -27,9 +27,9 @@ class Game:
     @staticmethod
     def __get_screen_dimensions() -> Tuple[int, int]:
         """
-        Returns screen dimensions in pixels as an ordered pair of form (width, height)
+        Returns screen dimensions in pixels as a tuple of form (width, height)
 
-        :returns screen dimensions in pixels as an ordered pair of form (width, height)
+        :returns screen dimensions in pixels as a tuple of form (width, height)
         """
         pygame.init()
         dimensions = (pygame.display.Info().current_w, pygame.display.Info().current_h)

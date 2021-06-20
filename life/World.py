@@ -68,11 +68,11 @@ class World:
 
     def get_dimensions(self) -> Tuple[int, int]:
         """
-        Returns the dimensions of the state as an ordered pair of form (length, width)
+        Returns the dimensions of the state as a tuple of form (length, width)
 
         assumes: state is not a jagged array
 
-        :returns the dimensions of the state as an ordered pair of form (length, width)
+        :returns the dimensions of the state as a tuple of form (length, width)
         """
         dimensions = (0, 0)
         if self.state:
@@ -94,7 +94,7 @@ class World:
         """
         Transitions cell with given coordinate to live or dead
 
-        :param coordinate: an ordered pair of form (row index, column index) giving
+        :param coordinate: a tuple of form (row index, column index) giving
         the coordinate of a cell in the state
 
         :param is_live: the state of the cell (True if live, False if dead)
@@ -110,7 +110,7 @@ class World:
         """
         Returns count of live neighbouring cells to cell with given coordinate
 
-        :param coordinate: an ordered pair of form (row index, column index) giving
+        :param coordinate: a tuple of form (row index, column index) giving
         the coordinate of a cell in the state
 
         :returns count of live neighbouring cells to cell with given coordinate
@@ -130,7 +130,7 @@ class World:
         """
         Returns true if given coordinate is within state, else returns false
 
-        :param coordinate: an ordered pair of form (row index, column index) giving
+        :param coordinate: a tuple of form (row index, column index) giving
         the coordinate of a cell in the state
 
         :returns true if given coordinate is within state, else returns false
@@ -148,7 +148,7 @@ class World:
         """
         Returns cell corresponding to given coordinate
 
-        :param coordinate: an ordered pair of form (row index, column index) giving
+        :param coordinate: a tuple of form (row index, column index) giving
         the coordinate of a cell in the state
 
         :returns cell corresponding to given coordinate
