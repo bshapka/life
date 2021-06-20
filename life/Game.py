@@ -1,5 +1,7 @@
 from typing import List
 
+import pygame
+
 from life.World import World
 
 
@@ -21,8 +23,26 @@ class Game:
             random_state = self.__get_random_state()
             self.world = World(random_state)
 
-    def __validate_cell_size(self, cell_size: int):
-        pass
+    @staticmethod
+    def __validate_cell_size(cell_size: int):
+        """
+        Validates a given cell_size
+
+        :raises ValueError if cell_size is too big for screen or cell_size is negative
+
+        :param cell_size: the size of each cell in pixels
+
+        :returns void
+        """
+        if cell_size < 0:
+            raise ValueError("Argument cell_size cannot be negative.")
+
+        pygame.init()
+        screen_dimensions = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+        pygame.quit()
+        cell_is_too_big = any(d for d in screen_dimensions if cell_size > d)
+        if cell_is_too_big:
+            raise ValueError("Argument cell_size must not exceed any of the screen's dimensions.")
 
     def __get_random_state(self):
         pass
