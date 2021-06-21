@@ -1,6 +1,7 @@
 from life.World import World
 import pytest
 
+
 class TestWorldDegenerateStartingStates():
     def test_row_start_state(self):
         starting_state = [[False, True, True, True, False, False, True]]

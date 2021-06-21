@@ -1,6 +1,7 @@
 from life.World import World
 import pytest
 
+
 class TestWorldInvalidStartingStates():
     def test_jagged_start_state(self):
         starting_state = [

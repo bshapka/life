@@ -1,7 +1,7 @@
 from life.World import World
 import pytest
 
-class TestWorldTriominos():
+class TestWorldTriominoes():
     def test_triomino_1_start_state(self):
         starting_state = [
             [False, False, False, False],

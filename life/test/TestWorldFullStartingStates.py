@@ -1,18 +1,19 @@
 from life.World import World
 import pytest
 
+
 class TestWorldFullStartingStates():
     def test_fully_dead_start_state(self):
-        STATE_DIMENSION = 10
-        starting_state = [[False] * STATE_DIMENSION] * STATE_DIMENSION
+        state_dimension = 10
+        starting_state = [[False] * state_dimension] * state_dimension
         world = World(starting_state)
         world.next_state()
         next_state = world.get_state()
         assert starting_state == next_state
 
     def test_full_alive_start_state(self):
-        STATE_DIMENSION = 5
-        starting_state = [[True] * STATE_DIMENSION] * STATE_DIMENSION
+        state_dimension = 5
+        starting_state = [[True] * state_dimension] * state_dimension
         world = World(starting_state)
         world.next_state()
         next_state = world.get_state()

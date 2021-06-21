@@ -1,7 +1,8 @@
 from life.World import World
 import pytest
 
-class TestWorldTetrominos():
+
+class TestWorldTetrominoes():
     def test_tetromino_1_start_state(self):
         starting_state = [
             [False, False, False, False, False],
