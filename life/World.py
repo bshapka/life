@@ -3,15 +3,17 @@ from typing import List, Tuple
 
 class World:
     """
-    Represents a 2D world with cells that are live or dead
+    Represents a 2D world in grid form with each cell in the grid being live or dead (but not both)
 
     Fields:
         state: List[List[bool]]
-            represents the state of the world as a 2D list of bool
-            where True represents live and False represents dead
+            represents the state of the world as a 2D list of bool. Each element of the list
+            represents a cell in the grid. An element with a value of True represents a live cell.
+            An element with a value of False represents a dead cell.
 
     Methods:
-            advances state one generation
+        next_state() -> None
+            updates state by applying the rules of the game to all elements of state
 
         get_state() -> List[List[bool]]
             returns state
@@ -21,7 +23,7 @@ class World:
         """
         Instantiates a World
 
-        :param initial_state: represents an initial state of the World
+        :param initial_state: an initial state of the World
 
         :returns None
         """
@@ -33,14 +35,13 @@ class World:
         """
         Validates a given state
 
-        Checks that state is of proper type and that state is not
-        a jagged array
+        Checks that state is a) of type List[List[bool]] and b) state is not a jagged array
 
-        :raises TypeError if state contains a non-bool
+        :raises TypeError if state contains any non-bool elements
 
-        :raises ValueError if state is a jagged array
+        :raises ValueError if state is a jagged array (i.e. rows have different numbers of columns)
 
-        :param state: represents a state of the World
+        :param state: a state of the World
 
         :returns None
         """
@@ -50,8 +51,7 @@ class World:
             for cell in row:
                 row_length += 1
                 if type(cell) is not bool:
-                    raise TypeError(
-                        "The state must be of type List[List[bool]].")
+                    raise TypeError("The state must be of type List[List[bool]].")
             if row_lengths != set() and row_length not in row_lengths:
                 raise ValueError("The state must not be a jagged array")
             else:
@@ -80,9 +80,9 @@ class World:
 
     def next_state(self) -> None:
         """
-        Advances state one generation
+        Updates state by applying the rules of the game to all elements of state
 
-        :returns void
+        :returns None
         """
         self.state = [
             [self.__next_cell((i, j), is_live) for j, is_live in enumerate(row)]
@@ -91,14 +91,14 @@ class World:
 
     def __next_cell(self, coordinate: Tuple[int, int], is_live: bool) -> bool:
         """
-        Transitions cell with given coordinate to live or dead
+        Returns next cell at given coordinate by applying the rules of the game
 
-        :param coordinate: a tuple of form (row index, column index) giving
-        the coordinate of a cell in the state
+        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
+        cell in state
 
         :param is_live: the state of the cell (True if live, False if dead)
 
-        :returns next cell at given coordinate in state
+        :returns next cell at given coordinate by applying the rules of the game
         """
         live_neighbour_count = self.__live_neighbour_count(coordinate)
         stays_live = is_live and live_neighbour_count in {2, 3}
@@ -109,8 +109,8 @@ class World:
         """
         Returns count of live neighbouring cells to cell with given coordinate
 
-        :param coordinate: a tuple of form (row index, column index) giving
-        the coordinate of a cell in the state
+        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
+        cell in state
 
         :returns count of live neighbouring cells to cell with given coordinate
         """
@@ -118,21 +118,20 @@ class World:
         offsets = range(-1, 2)
         neighbours = [
             self.__get_cell((row_index + row_offset, col_index + col_offset))
-            for row_offset in offsets
-            for col_offset in offsets
-            if not(row_offset == col_offset == 0)
+            for row_offset in offsets for col_offset in offsets
+            if not row_offset == col_offset == 0
             and self.__is_valid_coordinate((row_index + row_offset, col_index + col_offset))
         ]
         return sum(neighbours)
 
     def __is_valid_coordinate(self, coordinate: Tuple[int, int]) -> bool:
         """
-        Returns true if given coordinate is within state, else returns false
+        Returns True if given coordinate is within state, else returns False
 
-        :param coordinate: a tuple of form (row index, column index) giving
-        the coordinate of a cell in the state
+        :param coordinate: a tuple of form (row index, column index) potentially giving the
+        coordinate of a cell in the state
 
-        :returns true if given coordinate is within state, else returns false
+        :returns True if given coordinate is within state, else returns False
         """
         min_row_index = min_col_index = 0
         length, width = self.get_dimensions()
@@ -145,12 +144,12 @@ class World:
 
     def __get_cell(self, coordinate: Tuple[int, int]) -> bool:
         """
-        Returns cell corresponding to given coordinate
+        Returns cell in state corresponding to given coordinate
 
-        :param coordinate: a tuple of form (row index, column index) giving
-        the coordinate of a cell in the state
+        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
+        cell in the state
 
-        :returns cell corresponding to given coordinate
+        :returns cell in state corresponding to given coordinate
         """
         row_index, col_index = coordinate
         return self.state[row_index][col_index]
