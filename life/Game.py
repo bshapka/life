@@ -10,7 +10,10 @@ class Game:
 
     Fields:
         world: World
-        An instance of World with a state and a method to transition to the next state
+            An instance of World with a state and a method to transition to the next state
+
+        cell_size: int
+            The size (size == length == width) of a rendered cell
 
     Methods:
         play() -> None
@@ -28,11 +31,12 @@ class Game:
         :returns None
         """
         self.__validate_cell_size(cell_size)
+        self.cell_size = cell_size
         if initial_state is not None:
             self.__validate_state(initial_state, cell_size)
             self.world = World(initial_state)
         else:
-            random_state = Game.__get_random_state(cell_size, 5)
+            random_state = Game.__get_random_state(cell_size, 10)
             self.world = World(random_state)
 
     @staticmethod
@@ -122,3 +126,34 @@ class Game:
 
         state = [[rand_bool() for j in range(length)] for i in range(width)]
         return state
+
+    def play(self) -> None:
+        """
+        Plays Conway's Game of Life
+
+        Renders each state of the World associated with self on a Pygame surface.
+        Continues doing this until the user closes the game window
+
+        :returns None
+        """
+        pygame.init()
+        clock = pygame.time.Clock()
+        screen_dimensions = Game.__get_screen_dimensions()
+        surface = pygame.display.set_mode(screen_dimensions, pygame.FULLSCREEN)
+        colours = {'white': (255,) * 3, 'green': (0, 255, 0)}
+        while not pygame.event.get(pygame.QUIT):
+            surface.fill(colours['white'])
+            length, width = self.world.get_dimensions()
+            state = self.world.get_state()
+            for row_index in range(width):
+                state_row = state[row_index]
+                for col_index, is_live in enumerate(state_row):
+                    if is_live:
+                        position = (col_index * self.cell_size, row_index * self.cell_size)
+                        cell = pygame.Rect(position, (self.cell_size,) * 2)
+                        pygame.draw.rect(surface, colours['green'], cell)
+            pygame.display.flip()
+            self.world.next_state()
+            clock.tick(1)
+        pygame.quit()
+
