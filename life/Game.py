@@ -107,7 +107,7 @@ class Game:
         :returns: a random state scaled to fill the screen
         """
         screen_dimensions = Game.__get_screen_dimensions()
-        length, width = (dim // sample_size for dim in screen_dimensions)
+        length, width = (dim // cell_size for dim in screen_dimensions)
 
         def rand_bool() -> bool:
             """
