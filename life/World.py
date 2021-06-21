@@ -11,7 +11,7 @@ class World:
             where True represents live and False represents dead
 
     Methods:
-        next_state()
+        next_state() -> None
             advances state one generation
 
         get_state() -> List[List[bool]]

@@ -5,6 +5,18 @@ import random as rand
 
 
 class Game:
+    """
+    Represents an instance of Conway's Game of Life
+
+    Fields:
+        world: World
+        An instance of World with a state and a method to transition to the next state
+
+    Methods:
+        play() -> None
+            Plays the game by rendering each state of the World on a Pygame surface
+            until the user closes the game window
+    """
     def __init__(self, cell_size: int, initial_state: List[List[bool]] = None) -> None:
         """
         Instantiates a Game
