@@ -24,7 +24,7 @@ class Game:
         """
         Instantiates a Game
 
-        :param cell_size: the size of each cell in pixels
+        :param cell_size: the size of each rendered cell in pixels
 
         :param initial_state: an initial state for a World
 
@@ -36,7 +36,7 @@ class Game:
             self.__validate_state(initial_state, cell_size)
             self.world = World(initial_state)
         else:
-            random_state = Game.__get_random_state(cell_size, 10)
+            random_state = Game.__get_random_state(cell_size, 15)
             self.world = World(random_state)
 
     @staticmethod
@@ -58,7 +58,7 @@ class Game:
 
         :raises ValueError if cell_size is too big for screen or cell_size is negative
 
-        :param cell_size: the size of each cell in pixels
+        :param cell_size: the size of each rendered cell in pixels
 
         :returns None
         """
@@ -66,7 +66,7 @@ class Game:
             raise ValueError("The cell_size cannot be negative.")
 
         screen_dimensions = Game.__get_screen_dimensions()
-        cell_is_too_big = any(d for d in screen_dimensions if cell_size > d)
+        cell_is_too_big = any(dim for dim in screen_dimensions if cell_size > dim)
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
@@ -79,7 +79,7 @@ class Game:
 
         :param state: an initial state for a World
 
-        :param cell_size: the size of each cell in pixels
+        :param cell_size: the size of each rendered cell in pixels
 
         :returns None
         """
@@ -88,15 +88,19 @@ class Game:
         scaled_state_length, scaled_state_width = (dim * cell_size for dim in state_dimensions)
 
         if scaled_state_length > screen_width:
-            raise ValueError("The product of the length of the state and cell_size cannot exceed the screen's width")
+            error_message = "The product of the length of the state and cell_size cannot exceed " \
+                            "the screen's width"
+            raise ValueError(error_message)
 
         if scaled_state_width > screen_height:
-            raise ValueError("The product of the width of the state and cell_size cannot exceed the screen's height")
+            error_message = "The product of the width of the state and cell_size cannot exceed " \
+                            "the screen's height"
+            raise ValueError(error_message)
 
     @staticmethod
     def __get_random_state(cell_size: int, sample_size: int) -> List[List[bool]]:
         """
-        Returns a random state scaled to fill the screen
+        Returns a random state scaled to fill the screen when rendered
 
         Every cell in the state has a 1 / sample_size probability of being live,
         and therefore a (sample_size - 1) / sample_size probability of being dead.
@@ -108,7 +112,7 @@ class Game:
 
         :param sample_size: the size of the sample from which live/dead cells are drawn
 
-        :returns: a random state scaled to fill the screen
+        :returns a random state scaled to fill the screen when rendered
         """
         screen_dimensions = Game.__get_screen_dimensions()
         length, width = (dim // cell_size for dim in screen_dimensions)
@@ -132,7 +136,7 @@ class Game:
         Plays Conway's Game of Life
 
         Renders each state of the World associated with self on a Pygame surface.
-        Continues doing this until the user closes the game window
+        Continues doing this until the user closes the game window.
 
         :returns None
         """
@@ -143,15 +147,13 @@ class Game:
         while not pygame.event.get(pygame.QUIT):
             surface.fill(colours['white'])
             length, width = self.world.get_dimensions()
-            state = self.world.get_state()
             for row_index in range(width):
-                state_row = state[row_index]
+                state_row = self.world.get_state()[row_index]
                 for col_index, is_live in enumerate(state_row):
                     if is_live:
-                        position = (col_index * self.cell_size, row_index * self.cell_size)
-                        cell = pygame.Rect(position, (self.cell_size,) * 2)
+                        render_position = (dim * self.cell_size for dim in (col_index, row_index))
+                        cell = pygame.Rect(tuple(render_position), (self.cell_size,) * 2)
                         pygame.draw.rect(surface, colours['green'], cell)
             pygame.display.flip()
             self.world.next_state()
         pygame.quit()
-
