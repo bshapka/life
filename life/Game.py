@@ -1,8 +1,7 @@
 from typing import List, Tuple
-
 import pygame
-
 from life.World import World
+import random as rand
 
 
 class Game:
@@ -21,7 +20,7 @@ class Game:
             self.__validate_state(initial_state, cell_size)
             self.world = World(initial_state)
         else:
-            random_state = self.__get_random_state()
+            random_state = Game.__get_random_state(cell_size, 5)
             self.world = World(random_state)
 
     @staticmethod
@@ -78,5 +77,36 @@ class Game:
         if scaled_state_width > screen_height:
             raise ValueError("The product of the width of the state and cell_size cannot exceed the screen's height")
 
-    def __get_random_state(self):
-        pass
+    @staticmethod
+    def __get_random_state(cell_size: int, sample_size: int) -> List[List[bool]]:
+        """
+        Returns a random state scaled to fill the screen
+
+        Every cell in the state has a 1 / sample_size probability of being live,
+        and therefore a (sample_size - 1) / sample_size probability of being dead.
+
+        The state will be constructed using cell_size and the screen size so that
+        the state will fill the screen when rendered
+
+        :param cell_size: the size of each cell in pixels
+
+        :param sample_size: the size of the sample from which live/dead cells are drawn
+
+        :returns: a random state scaled to fill the screen
+        """
+        screen_dimensions = Game.__get_screen_dimensions()
+        length, width = (dim // sample_size for dim in screen_dimensions)
+
+        def rand_bool() -> bool:
+            """
+            Returns a random bool
+
+            The bool will be true with 1 / sample_size probability and false with
+            a (sample_size - 1) / sample_size probability.
+
+            :return: a random bool
+            """
+            return not bool(rand.randrange(0, sample_size))
+
+        state = [[rand_bool() for j in range(length)] for i in range(width)]
+        return state
