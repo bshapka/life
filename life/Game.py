@@ -137,7 +137,6 @@ class Game:
         :returns None
         """
         pygame.init()
-        clock = pygame.time.Clock()
         screen_dimensions = Game.__get_screen_dimensions()
         surface = pygame.display.set_mode(screen_dimensions, pygame.FULLSCREEN)
         colours = {'white': (255,) * 3, 'green': (0, 255, 0)}
@@ -154,6 +153,5 @@ class Game:
                         pygame.draw.rect(surface, colours['green'], cell)
             pygame.display.flip()
             self.world.next_state()
-            clock.tick(1)
         pygame.quit()
 
