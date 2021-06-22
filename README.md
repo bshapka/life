@@ -7,10 +7,28 @@ The source code of this project was written in Python. Here is a high-level over
 * The package `life` contains two classes, `Game` and `World`. These classes are 
 well-documented in their source files, so no more details about them will be provided here.
 
-This project has several Python dependencies, notably Pygame which is used for rendering the game on
-the screen. These dependencies are not included in this repo in the interest of saving space. To run
-the project, these dependencies must be installed. They are listed in requirements.txt and can be 
-installed with pip. Use of a virtual environment is recommended.
+### Dependencies
+
+The project has two main Python dependencies:
+* A Python 3 interpreter
+* A set of Python packages listed in requirements.txt
+
+The set of Python packages is not included in the repo to save space. To run this project after
+it has been cloned, these packages may need to be installed. 
+
+This is a set of directions for installing these packages. Note that these directions assume a 
+Python 3 interpreter exists and that it has been associated with the shell command `python3`.
+* Start a shell session and navigate to the root directory of the project/cloned repo
+* Run the command `python3 -m venv venv` to create a Python 3 virtual environment (venv) using your
+Python 3 setup
+* Run the command `source venv/bin/activate` to activate the venv
+* Run the command `pip install --upgrade pip` to upgrade pip (the Python package manager)
+* Run the command `python -m pip install -r requirements.txt` to install the required 
+packages
+
+Now you should be able to run the game by running `Life.py`. When you are done, you can deactivate
+the venv using the command `deactivate`. If you want to run the game again after deactivating the
+venv, first reactivate the venv using the command above.
 
 ## About Conway's Game of Life
 Conway's Game of Life (or Life for short) is a cellular automation created by the English 
