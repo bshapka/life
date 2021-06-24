@@ -1,17 +1,20 @@
+import collections
+import functools
+import operator
 from typing import List, Tuple, Set
 
 
 class World:
     """
-    Represents a 2D world in grid form with each cell in the grid being live or dead (but not both)
+    represents a 2D world in grid form with each cell in the grid being live or dead (but not both)
 
-    Fields:
+    fields:
         state: Set[Tuple[int, int]]
             represents the state of the world as a set of 2-integer tuples. Each element of the set
             gives the coordinates of a live cell in the grid. As such, the coordinates of dead cells
             are not part of the state.
 
-    Methods:
+    methods:
         next_state() -> None
             updates state by applying the rules of the game
 
@@ -21,7 +24,7 @@ class World:
 
     def __init__(self, initial_state: Set[Tuple[int, int]]) -> None:
         """
-        Instantiates a World
+        instantiates a World
 
         :param initial_state: an initial state of the World
 
@@ -79,29 +82,37 @@ class World:
 
     def next_state(self) -> None:
         """
-        Updates state by applying the rules of the game to all elements of state
+        updates state by applying the rules of the game
 
         :returns None
         """
-        self.state = [
-            [self.__next_cell((i, j), is_live) for j, is_live in enumerate(row)]
-            for i, row in enumerate(self.state)
-        ]
 
-    def __live_neighbour_count(self, coordinate: Tuple[int, int]) -> int:
-        """
-        Returns count of live neighbouring cells to cell with given coordinate
+        def region(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
+            """
+            returns the list of coordinates of the region around the given coordinate
 
-        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
-        cell in state
+            The region around a given coordinate is defined here to be the union of a) the Moore
+            neighbourhood around the given coordinate and b) the given coordinate itself. In other
+            words, the region around a coordinate is the coordinate itself plus the 8 closest other
+            coordinates.
 
-        :returns count of live neighbouring cells to cell with given coordinate
-        """
-        row_index, col_index = coordinate
-        offsets = range(-1, 2)
-        neighbours = [
-            self.__get_cell((row_index + row_offset, col_index + col_offset))
-            for row_offset in offsets for col_offset in offsets
-            if not row_offset == col_offset == 0
-        ]
-        return sum(neighbours)
+            :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
+            live cell in state
+
+            :returns the list of coordinates of the region around the given coordinate
+            """
+            row_index, col_index = coordinate
+            offsets = range(-1, 2)
+            region = [
+                (row_index + row_offset, col_index + col_offset)
+                for row_offset in offsets for col_offset in offsets
+            ]
+            return region
+
+        candidates = functools.reduce(operator.iconcat, map(region, self.state), [])
+        counted_candidates = collections.Counter(candidates)
+        next_state = {
+            coordinate for coordinate, count in counted_candidates.items()
+            if count == 3 or (count == 4 and coordinate in self.state)
+        }
+        self.state = next_state
