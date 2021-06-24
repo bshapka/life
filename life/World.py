@@ -103,24 +103,5 @@ class World:
             self.__get_cell((row_index + row_offset, col_index + col_offset))
             for row_offset in offsets for col_offset in offsets
             if not row_offset == col_offset == 0
-            and self.__is_valid_coordinate((row_index + row_offset, col_index + col_offset))
         ]
         return sum(neighbours)
-
-    def __is_valid_coordinate(self, coordinate: Tuple[int, int]) -> bool:
-        """
-        Returns True if given coordinate is within state, else returns False
-
-        :param coordinate: a tuple of form (row index, column index) potentially giving the
-        coordinate of a cell in the state
-
-        :returns True if given coordinate is within state, else returns False
-        """
-        min_row_index = min_col_index = 0
-        length, width = self.get_dimensions()
-        max_row_index, max_col_index = width - 1, length - 1
-
-        row_index, col_index = coordinate
-        is_valid_row_index = min_row_index <= row_index <= max_row_index
-        is_valid_col_index = min_col_index <= col_index <= max_col_index
-        return is_valid_row_index and is_valid_col_index
