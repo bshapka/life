@@ -42,7 +42,7 @@ class Game:
     @staticmethod
     def __get_screen_dimensions() -> Tuple[int, int]:
         """
-        Returns screen dimensions in pixels as a tuple of form (width, height)
+        returns screen dimensions in pixels as a tuple of form (width, height)
 
         :returns screen dimensions in pixels as a tuple of form (width, height)
         """
