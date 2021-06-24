@@ -22,9 +22,9 @@ class Game:
     """
     def __init__(self, cell_size: int, initial_state: List[List[bool]] = None) -> None:
         """
-        Instantiates a Game
+        instantiates a Game
 
-        :param cell_size: the size of each rendered cell in pixels
+        :param cell_size: the desired size of a rendered cell in pixels
 
         :param initial_state: an initial state for a World
 
