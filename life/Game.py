@@ -51,22 +51,20 @@ class Game:
         pygame.quit()
         return dimensions
 
-    @staticmethod
-    def __validate_cell_size(cell_size: int) -> None:
+    def __validate_cell_size(self, cell_size: int) -> None:
         """
-        Validates a given cell_size
+        validates a given cell_size
 
-        :raises ValueError if cell_size is too big for screen or cell_size is negative
+        :raises ValueError if cell_size is negative or cell_size is too big for screen
 
-        :param cell_size: the size of each rendered cell in pixels
+        :param cell_size: the desired size of a rendered cell in pixels
 
         :returns None
         """
         if cell_size < 0:
             raise ValueError("The cell_size cannot be negative.")
 
-        screen_dimensions = Game.__get_screen_dimensions()
-        cell_is_too_big = any(dim for dim in screen_dimensions if cell_size > dim)
+        cell_is_too_big = any(dim for dim in self.screen_dimensions if cell_size > dim)
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
