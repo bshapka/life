@@ -31,31 +31,43 @@ class World:
         self.state = initial_state
 
     @staticmethod
-    def __validate_state(state: List[List[bool]]) -> None:
+    def __validate_state(state: Set[Tuple[int, int]]) -> None:
         """
-        Validates a given state
+        validates a given state
 
-        Checks that state is a) of type List[List[bool]] and b) state is not a jagged array
+        checks that state is of type Set[Tuple[int, int]]
 
-        :raises TypeError if state contains any non-bool elements
+        :raises TypeError if state is not of type Set
 
-        :raises ValueError if state is a jagged array (i.e. rows have different numbers of columns)
+        :raises TypeError if any element of state is not of type Tuple
 
-        :param state: a state of the World
+        :raises TypeError if any element of any element of state is not not of type int
+
+        :raises ValueError if any element of state is not not of size 2
+
+        :param state: a state for the World
 
         :returns None
         """
-        row_lengths = set()
-        for row in state:
-            row_length = 0
-            for cell in row:
-                row_length += 1
-                if type(cell) is not bool:
-                    raise TypeError("The state must be of type List[List[bool]].")
-            if row_lengths != set() and row_length not in row_lengths:
-                raise ValueError("The state must not be a jagged array")
-            else:
-                row_lengths.add(row_length)
+        error_message = "The state must be of type Set[Tuple[int, int]]. "
+
+        if type(state) is not set:
+            error_message += "The collection used is not of type set."
+            raise TypeError(error_message)
+
+        for coordinate in state:
+            if type(coordinate) is not tuple:
+                error_message += "An element of the set is not a tuple."
+                raise TypeError(error_message)
+            size = 0
+            for component in coordinate:
+                if type(component) is not int:
+                    error_message += "A tuple in the set contains an element that is not of type int."
+                    raise TypeError(error_message)
+                size += 1
+            if size != 2:
+                error_message += "A tuple in the set is not of size 2."
+                raise ValueError(error_message)
 
     def get_state(self) -> List[List[bool]]:
         """
