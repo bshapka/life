@@ -69,7 +69,7 @@ class World:
                 error_message += "A tuple in the set is not of size 2."
                 raise ValueError(error_message)
 
-    def get_state(self) -> List[List[bool]]:
+    def get_state(self) -> Set[Tuple[int, int]]:
         """
         returns state
 
