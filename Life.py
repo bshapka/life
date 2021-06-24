@@ -1,4 +1,4 @@
 from life.Game import Game
 
 game = Game(5)
-game.play()
+game.play(0.5)

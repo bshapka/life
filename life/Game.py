@@ -1,3 +1,4 @@
+import operator
 from typing import List, Tuple, Set
 import pygame
 from life.World import World
@@ -36,7 +37,7 @@ class Game:
         if initial_state is not None:
             self.world = World(initial_state)
         else:
-            random_state = self.__get_random_state(cell_size, 0.05)
+            random_state = self.__get_random_state(cell_size, 0.01)
             self.world = World(random_state)
 
     @staticmethod
@@ -91,29 +92,44 @@ class Game:
         state = set(rand.sample(candidates, desired_cells))
         return state
 
-    def play(self) -> None:
+    def play(self, delay: float) -> None:
         """
-        Plays Conway's Game of Life
+        plays Conway's Game of Life
 
-        Renders each state of the World associated with self on a Pygame surface.
-        Continues doing this until the user closes the game window.
+        continually renders each state of self.world on a Pygame surface until the user closes
+        the game window
+
+        :param delay: the delay between iterations of the game loop in seconds (i.e. the approximate
+        delay between rendered frames)
 
         :returns None
         """
+        def scaled_coordinate(coordinate: Tuple[int, int]) -> Tuple[int, int]:
+            """
+            returns the given coordinate scaled by cell_size and adjusted for toroidal geometry
+
+            A coordinate is scaled by cell_size by multiplying each component by cell_size. A
+            coordinate is adjusted for toroidal geometry by taking each the x-coordinate and
+            y-coordinate modulo the screen width and screen height respectively.
+
+            :returns the given coordinate adjusted for toroidal geometry and scaled by cell_size
+            """
+            scaled_coordinate = (c * self.cell_size for c in coordinate)
+            scaled_coordinate = tuple(
+                operator.mod(*entry) for entry in zip(scaled_coordinate, self.screen_dimensions)
+            )
+            return scaled_coordinate
+
         pygame.init()
-        screen_dimensions = Game.__get_screen_dimensions()
-        surface = pygame.display.set_mode(screen_dimensions, pygame.FULLSCREEN)
+        surface = pygame.display.set_mode(self.screen_dimensions, pygame.FULLSCREEN)
         colours = {'white': (255,) * 3, 'green': (0, 255, 0)}
         while not pygame.event.get(pygame.QUIT):
             surface.fill(colours['white'])
-            length, width = self.world.get_dimensions()
-            for row_index in range(width):
-                state_row = self.world.get_state()[row_index]
-                for col_index, is_live in enumerate(state_row):
-                    if is_live:
-                        render_position = (dim * self.cell_size for dim in (col_index, row_index))
-                        cell = pygame.Rect(tuple(render_position), (self.cell_size,) * 2)
-                        pygame.draw.rect(surface, colours['green'], cell)
+            for coordinate in self.world.get_state():
+                coordinate = scaled_coordinate(coordinate)
+                cell = pygame.Rect(coordinate, (self.cell_size,) * 2)
+                pygame.draw.rect(surface, colours['green'], cell)
             pygame.display.flip()
             self.world.next_state()
+            pygame.time.delay(int(delay * 1000))
         pygame.quit()
