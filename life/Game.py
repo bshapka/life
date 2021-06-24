@@ -37,7 +37,7 @@ class Game:
         if initial_state is not None:
             self.world = World(initial_state)
         else:
-            random_state = self.__get_random_state(cell_size, 0.075)
+            random_state = self.__get_random_state(0.075)
             self.world = World(random_state)
 
     @staticmethod
@@ -69,13 +69,11 @@ class Game:
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
-    def __get_random_state(self, cell_size: int, density: float) -> Set[Tuple[int, int]]:
+    def __get_random_state(self, density: float) -> Set[Tuple[int, int]]:
         """
         returns a random state scaled to fill the screen when rendered
 
         :raises ValueError if density is not in the interval [0, 1]
-
-        :param cell_size: the desired size of a rendered cell in pixels
 
         :param density: the proportion of all cells possible to render on the screen that are live
 
@@ -85,9 +83,9 @@ class Game:
             raise ValueError("The value of density must be in the interval [0, 1].")
 
         width, height = self.screen_dimensions
-        total_cells = (width * height) // (cell_size ** 2)
+        total_cells = (width * height) // (self.cell_size ** 2)
         desired_cells = int(total_cells * density)
-        max_x_coordinate, max_y_coordinate = width // cell_size, height // cell_size
+        max_x_coordinate, max_y_coordinate = width // self.cell_size, height // self.cell_size
         candidates = [(i, j) for i in range(max_x_coordinate + 1) for j in range(max_y_coordinate + 1)]
         state = set(rand.sample(candidates, desired_cells))
         return state
