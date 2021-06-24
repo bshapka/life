@@ -4,135 +4,55 @@ import pytest
 
 class TestWorldTetrominoes():
     def test_tetromino_1_start_state(self):
-        starting_state = [
-            [False, False, False, False, False],
-            [False, False, False, False, False],
-            [False, True, True, True, False],
-            [False, True, False, False, False],
-            [False, False, False, False, False]
-        ]
+        starting_state = {(2, 3), (3, 1), (2, 1), (2, 2)}
         world = World(starting_state)
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False],
-            [False, False, True, False, False],
-            [False, True, True, False, False],
-            [False, True, False, False, False],
-            [False, False, False, False, False]
-        ]
+        expected_state = {(3, 1), (1, 2), (2, 1), (2, 2)}
         assert expected_state == next_state
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False],
-            [False, True, True, False, False],
-            [False, True, True, False, False],
-            [False, True, True, False, False],
-            [False, False, False, False, False]
-        ]
+        expected_state = {(1, 2), (2, 1), (3, 1), (1, 1), (2, 2), (3, 2)}
         assert expected_state == next_state
-        expected_state = [
-            [False, False, False, False, False],
-            [False, True, True, False, False],
-            [True, False, False, True, False],
-            [False, True, True, False, False],
-            [False, False, False, False, False]
-        ]
+        expected_state = {(1, 2), (3, 1), (1, 1), (2, 0), (2, 3), (3, 2)}
         for i in range(10):
             world.next_state()
             next_state = world.get_state()
             assert expected_state == next_state
 
     def test_tetromino_2_start_state(self):
-        starting_state = [
-            [False, False, False, False, False],
-            [False, False, True, False, False],
-            [False, False, True, False, False],
-            [False, False, True, False, False],
-            [False, False, True, False, False],
-            [False, False, False, False, False]
-        ]
+        starting_state = {(3, 2), (1, 2), (4, 2), (2, 2)}
         world = World(starting_state)
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False],
-            [False, False, False, False, False],
-            [False, True, True, True, False],
-            [False, True, True, True, False],
-            [False, False, False, False, False],
-            [False, False, False, False, False]
-        ]
+        expected_state = {(2, 1), (3, 1), (2, 3), (3, 3), (2, 2), (3, 2)}
         assert expected_state == next_state
-        expected_state = [
-            [False, False, False, False, False],
-            [False, False, True, False, False],
-            [False, True, False, True, False],
-            [False, True, False, True, False],
-            [False, False, True, False, False],
-            [False, False, False, False, False]
-        ]
+        expected_state = {(1, 2), (2, 1), (3, 1), (4, 2), (2, 3), (3, 3)}
         for i in range(10):
             world.next_state()
             next_state = world.get_state()
             assert expected_state == next_state
 
     def test_tetromino_3_start_state(self):
-        starting_state = [
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, True, False, False, False, False],
-            [False, False, True, True, True, False],
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False]
-        ]
+        starting_state = {(3, 2), (3, 3), (2, 1), (3, 4)}
         world = World(starting_state)
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, False, True, True, False, False],
-            [False, False, True, True, False, False],
-            [False, False, False, True, False, False],
-            [False, False, False, False, False, False]
-        ]
+        expected_state = {(4, 3), (2, 3), (3, 3), (2, 2), (3, 2)}
         assert expected_state == next_state
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, False, True, True, False, False],
-            [False, False, False, False, True, False],
-            [False, False, True, True, False, False],
-            [False, False, False, False, False, False]
-        ]
+        expected_state = {(3, 4), (4, 3), (4, 2), (2, 3), (2, 2)}
         assert expected_state == next_state
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, False, False, True, False, False],
-            [False, False, False, False, True, False],
-            [False, False, False, True, False, False],
-            [False, False, False, False, False, False]
-        ]
+        expected_state = {(2, 3), (3, 4), (4, 3)}
         assert expected_state == next_state
         world.next_state()
         next_state = world.get_state()
-        expected_state = [
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False],
-            [False, False, False, True, True, False],
-            [False, False, False, False, False, False],
-            [False, False, False, False, False, False]
-        ]
+        expected_state = {(3, 3), (3, 4)}
         assert expected_state == next_state
         world.next_state()
         next_state = world.get_state()
-        expected_state = [[False] * 6] * 6
+        expected_state = set()
         assert expected_state == next_state
