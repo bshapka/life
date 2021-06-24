@@ -1,3 +1,4 @@
+import functools
 import operator
 from typing import List, Tuple, Set
 import pygame
@@ -82,10 +83,11 @@ class Game:
         if density < 0 or density > 1:
             raise ValueError("The value of density must be in the interval [0, 1].")
 
-        width, height = self.screen_dimensions
-        total_cells = (width * height) // (self.cell_size ** 2)
+        screen_area = functools.reduce(operator.mul, self.screen_dimensions, 1)
+        cell_area = self.cell_size ** 2
+        total_cells = screen_area // cell_area
         desired_cells = int(total_cells * density)
-        max_x_coordinate, max_y_coordinate = width // self.cell_size, height // self.cell_size
+        max_x_coordinate, max_y_coordinate = (d // self.cell_size for d in self.screen_dimensions)
         candidates = [(i, j) for i in range(max_x_coordinate + 1) for j in range(max_y_coordinate + 1)]
         state = set(rand.sample(candidates, desired_cells))
         return state
