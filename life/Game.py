@@ -1,9 +1,10 @@
 import functools
 import operator
-from typing import List, Tuple, Set
+from typing import Set
 import pygame
 from life.World import World
 import random as rand
+from life.Coordinate import Coordinate
 
 
 class Game:
@@ -22,7 +23,7 @@ class Game:
             plays the game by rendering each state of the World on a Pygame surface until the user
             closes the game window
     """
-    def __init__(self, cell_size: int, initial_state: Set[Tuple[int, int]] = None) -> None:
+    def __init__(self, cell_size: int, initial_state: Set[Coordinate] = None) -> None:
         """
         instantiates a Game
 
@@ -42,14 +43,14 @@ class Game:
             self.world = World(random_state)
 
     @staticmethod
-    def __get_screen_dimensions() -> Tuple[int, int]:
+    def __get_screen_dimensions() -> Coordinate:
         """
         returns screen dimensions in pixels as a tuple of form (width, height)
 
         :returns screen dimensions in pixels as a tuple of form (width, height)
         """
         pygame.init()
-        dimensions = (pygame.display.Info().current_w, pygame.display.Info().current_h)
+        dimensions = Coordinate(pygame.display.Info().current_w, pygame.display.Info().current_h)
         pygame.quit()
         return dimensions
 
@@ -70,7 +71,7 @@ class Game:
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
-    def __get_random_state(self, density: float) -> Set[Tuple[int, int]]:
+    def __get_random_state(self, density: float) -> Set[Coordinate]:
         """
         returns a random state scaled to fill the screen when rendered
 
@@ -87,8 +88,11 @@ class Game:
         cell_area = self.cell_size ** 2
         total_cells = screen_area // cell_area
         desired_cells = int(total_cells * density)
-        max_x_coordinate, max_y_coordinate = (d // self.cell_size for d in self.screen_dimensions)
-        candidates = [(i, j) for i in range(max_x_coordinate + 1) for j in range(max_y_coordinate + 1)]
+        max_coordinate = Coordinate(*(d // self.cell_size for d in self.screen_dimensions))
+        candidates = [
+            Coordinate(i, j)
+            for i in range(max_coordinate.x + 1) for j in range(max_coordinate.y + 1)
+        ]
         state = set(rand.sample(candidates, desired_cells))
         return state
 
@@ -104,7 +108,7 @@ class Game:
 
         :returns None
         """
-        def scaled_coordinate(coordinate: Tuple[int, int]) -> Tuple[int, int]:
+        def scaled_coordinate(coordinate: Coordinate) -> Coordinate:
             """
             returns the given coordinate scaled by cell_size and adjusted for a toroidal grid
 
