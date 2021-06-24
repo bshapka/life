@@ -77,19 +77,6 @@ class World:
         """
         return self.state
 
-    def get_dimensions(self) -> Tuple[int, int]:
-        """
-        Returns the dimensions of the state as a tuple of form (length, width)
-
-        assumes: state is not a jagged array
-
-        :returns the dimensions of the state as a tuple of form (length, width)
-        """
-        dimensions = (0, 0)
-        if self.state:
-            dimensions = (len(self.state[0]), len(self.state))
-        return dimensions
-
     def next_state(self) -> None:
         """
         Updates state by applying the rules of the game to all elements of state
