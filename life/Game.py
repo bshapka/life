@@ -36,7 +36,7 @@ class Game:
         if initial_state is not None:
             self.world = World(initial_state)
         else:
-            random_state = Game.__get_random_state(cell_size, 15)
+            random_state = self.__get_random_state(cell_size, 0.05)
             self.world = World(random_state)
 
     @staticmethod
@@ -68,38 +68,27 @@ class Game:
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
-    @staticmethod
-    def __get_random_state(cell_size: int, sample_size: int) -> List[List[bool]]:
+    def __get_random_state(self, cell_size: int, density: float) -> Set[Tuple[int, int]]:
         """
-        Returns a random state scaled to fill the screen when rendered
+        returns a random state scaled to fill the screen when rendered
 
-        Every cell in the state has a 1 / sample_size probability of being live,
-        and therefore a (sample_size - 1) / sample_size probability of being dead.
+        :raises ValueError if density is not in the interval [0, 1]
 
-        The state will be constructed using cell_size and the screen size so that
-        the state will fill the screen when rendered
+        :param cell_size: the desired size of a rendered cell in pixels
 
-        :param cell_size: the size of each cell in pixels
-
-        :param sample_size: the size of the sample from which live/dead cells are drawn
+        :param density: the proportion of all cells possible to render on the screen that are live
 
         :returns a random state scaled to fill the screen when rendered
         """
-        screen_dimensions = Game.__get_screen_dimensions()
-        length, width = (dim // cell_size for dim in screen_dimensions)
+        if density < 0 or density > 1:
+            raise ValueError("The value of density must be in the interval [0, 1].")
 
-        def rand_bool() -> bool:
-            """
-            Returns a random bool
-
-            The bool will be true with 1 / sample_size probability and false with
-            a (sample_size - 1) / sample_size probability.
-
-            :return: a random bool
-            """
-            return not bool(rand.randrange(0, sample_size))
-
-        state = [[rand_bool() for j in range(length)] for i in range(width)]
+        width, height = self.screen_dimensions
+        total_cells = (width * height) // cell_size
+        desired_cells = int(total_cells * density)
+        max_x_coordinate, max_y_coordinate = width // cell_size, height // cell_size
+        candidates = [(i, j) for i in range(max_x_coordinate + 1) for j in range(max_y_coordinate + 1)]
+        state = set(rand.sample(candidates, desired_cells))
         return state
 
     def play(self) -> None:

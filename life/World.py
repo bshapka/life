@@ -86,7 +86,6 @@ class World:
 
         :returns None
         """
-
         def region(coordinate: Tuple[int, int]) -> List[Tuple[int, int]]:
             """
             returns the list of coordinates of the region around the given coordinate
