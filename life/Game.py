@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 import pygame
 from life.World import World
 import random as rand
@@ -20,7 +20,7 @@ class Game:
             plays the game by rendering each state of the World on a Pygame surface until the user
             closes the game window
     """
-    def __init__(self, cell_size: int, initial_state: List[List[bool]] = None) -> None:
+    def __init__(self, cell_size: int, initial_state: Set[Tuple[int, int]] = None) -> None:
         """
         instantiates a Game
 
