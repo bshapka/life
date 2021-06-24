@@ -106,11 +106,11 @@ class Game:
         """
         def scaled_coordinate(coordinate: Tuple[int, int]) -> Tuple[int, int]:
             """
-            returns the given coordinate scaled by cell_size and adjusted for toroidal geometry
+            returns the given coordinate scaled by cell_size and adjusted for a toroidal grid
 
             A coordinate is scaled by cell_size by multiplying each component by cell_size. A
-            coordinate is adjusted for toroidal geometry by taking each the x-coordinate and
-            y-coordinate modulo the screen width and screen height respectively.
+            coordinate is adjusted for a toroidal grid by taking the x-coordinate and y-coordinate
+            modulo the screen width and screen height respectively.
 
             :returns the given coordinate adjusted for toroidal geometry and scaled by cell_size
             """
@@ -126,8 +126,7 @@ class Game:
         while not pygame.event.get(pygame.QUIT):
             surface.fill(colours['white'])
             for coordinate in self.world.get_state():
-                coordinate = scaled_coordinate(coordinate)
-                cell = pygame.Rect(coordinate, (self.cell_size,) * 2)
+                cell = pygame.Rect(scaled_coordinate(coordinate), (self.cell_size,) * 2)
                 pygame.draw.rect(surface, colours['green'], cell)
             pygame.display.flip()
             self.world.next_state()
