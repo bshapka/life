@@ -30,6 +30,7 @@ class Game:
 
         :returns None
         """
+        self.screen_dimensions = Game.__get_screen_dimensions()
         self.__validate_cell_size(cell_size)
         self.cell_size = cell_size
         if initial_state is not None:
