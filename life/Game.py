@@ -37,7 +37,7 @@ class Game:
         if initial_state is not None:
             self.world = World(initial_state)
         else:
-            random_state = self.__get_random_state(cell_size, 0.01)
+            random_state = self.__get_random_state(cell_size, 0.075)
             self.world = World(random_state)
 
     @staticmethod
@@ -85,7 +85,7 @@ class Game:
             raise ValueError("The value of density must be in the interval [0, 1].")
 
         width, height = self.screen_dimensions
-        total_cells = (width * height) // cell_size
+        total_cells = (width * height) // (cell_size ** 2)
         desired_cells = int(total_cells * density)
         max_x_coordinate, max_y_coordinate = width // cell_size, height // cell_size
         candidates = [(i, j) for i in range(max_x_coordinate + 1) for j in range(max_y_coordinate + 1)]
@@ -122,7 +122,7 @@ class Game:
 
         pygame.init()
         surface = pygame.display.set_mode(self.screen_dimensions, pygame.FULLSCREEN)
-        colours = {'white': (255,) * 3, 'green': (0, 255, 0)}
+        colours = {'white': (255,) * 3, 'green': (0, 175, 0)}
         while not pygame.event.get(pygame.QUIT):
             surface.fill(colours['white'])
             for coordinate in self.world.get_state():
