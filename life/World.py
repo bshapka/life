@@ -88,22 +88,6 @@ class World:
             for i, row in enumerate(self.state)
         ]
 
-    def __next_cell(self, coordinate: Tuple[int, int], is_live: bool) -> bool:
-        """
-        Returns next cell at given coordinate by applying the rules of the game
-
-        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
-        cell in state
-
-        :param is_live: the state of the cell (True if live, False if dead)
-
-        :returns next cell at given coordinate by applying the rules of the game
-        """
-        live_neighbour_count = self.__live_neighbour_count(coordinate)
-        stays_live = is_live and live_neighbour_count in {2, 3}
-        is_born = not is_live and live_neighbour_count == 3
-        return stays_live or is_born
-
     def __live_neighbour_count(self, coordinate: Tuple[int, int]) -> int:
         """
         Returns count of live neighbouring cells to cell with given coordinate
@@ -140,15 +124,3 @@ class World:
         is_valid_row_index = min_row_index <= row_index <= max_row_index
         is_valid_col_index = min_col_index <= col_index <= max_col_index
         return is_valid_row_index and is_valid_col_index
-
-    def __get_cell(self, coordinate: Tuple[int, int]) -> bool:
-        """
-        Returns cell in state corresponding to given coordinate
-
-        :param coordinate: a tuple of form (row index, column index) giving the coordinate of a
-        cell in the state
-
-        :returns cell in state corresponding to given coordinate
-        """
-        row_index, col_index = coordinate
-        return self.state[row_index][col_index]
