@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Set
 
 
 class World:
@@ -6,20 +6,20 @@ class World:
     Represents a 2D world in grid form with each cell in the grid being live or dead (but not both)
 
     Fields:
-        state: List[List[bool]]
-            represents the state of the world as a 2D list of bool. Each element of the list
-            represents a cell in the grid. An element with a value of True represents a live cell.
-            An element with a value of False represents a dead cell.
+        state: Set[Tuple[int, int]]
+            represents the state of the world as a set of 2-integer tuples. Each element of the set
+            gives the coordinates of a live cell in the grid. As such, the coordinates of dead cells
+            are not part of the state.
 
     Methods:
         next_state() -> None
-            updates state by applying the rules of the game to all elements of state
+            updates state by applying the rules of the game
 
-        get_state() -> List[List[bool]]
+        get_state() -> Set[Tuple[int, int]]
             returns state
     """
 
-    def __init__(self, initial_state: List[List[bool]]) -> None:
+    def __init__(self, initial_state: Set[Tuple[int, int]]) -> None:
         """
         Instantiates a World
 
