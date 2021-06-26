@@ -1,11 +1,27 @@
-# Conway's Game of Life
-This project is an implementation of Conway's Game of Life.
+# Life in Python
+This project is an implementation of Conway's Game of Life (or Life for short) in Python.
 
 ## About the code
-The source code of this project was written in Python. Here is a high-level overview of the sources:
-* The script `Life.py` can be used to run the game
-* The package `life` contains two classes, `Game` and `World`. These classes are 
-well-documented in their source files, so no more details about them will be provided here.
+The source code of this project was written in Python. Here is a high-level summary of the sources:
+* The root directory contains the script `Life.py` which can be used to start the game from the command line
+* The root directory contains a package called `life` which contains three classes, `Coordinate.py`, `World.py`, and `Game.py`.
+The latter two classes are extensively documented in their source files, so those details won't be repeated here. The class
+`Coordinate.py` is just a NamedTuple representing an ordered pair in the xy plane.
+
+### Implementation Details
+This sub-section assumes basic familiarity with Life. If you are not familiar with Life but want to read this section, 
+please read the section [About Life](#about-life) below, or consult a source like Wikipedia on the game.
+
+Common implementations of Life (including the first release of this project) represent the state of a world as a 2D list of
+bits or booleans. Typically a live cell is truthy while a dead cell is falsy. While this approach is intuitive, dead calls don't 
+need to be tracked, and doing so can have notable costs in terms of memory usage.
+
+An alternative approach is to store only the coordinates of live cells, requiring significantly less memory. By representing
+coordinates as tuples and storing them in a set, further efficiencies are gained via hashing. This is the approach taken for the
+second release. 
+
+The second release uses a toroidal grid. As such, objects that leave the screen on one edge will re-enter the screen with the same
+trajectory and velocity at the equivalent location on the opposing edge.
 
 ### Dependencies
 
@@ -13,8 +29,8 @@ The project has two main Python dependencies:
 * A Python 3 interpreter
 * A set of Python packages listed in requirements.txt
 
-The set of Python packages is not included in the repo to save space. To run this project after
-it has been cloned, these packages may need to be installed. 
+These dependencies are not included in this repo to save space. To run this project after
+it has been cloned, these dependencies may need to be installed.
 
 This is a set of directions for installing these packages. Note that these directions assume a 
 Python 3 interpreter exists and that it has been associated with the shell command `python3`.
@@ -30,9 +46,9 @@ Now you should be able to run the game by running `Life.py`. When you are done, 
 the venv using the command `deactivate`. If you want to run the game again after deactivating the
 venv, first reactivate the venv using the command above.
 
-## About Conway's Game of Life
-Conway's Game of Life (or Life for short) is a cellular automation created by the English 
-mathematician John Conway. As a cellular automation, Life has the following elements:
+## About Life
+Life is a cellular automation created by the English mathematician John Conway. As a cellular automation, 
+Life has the following elements:
 * A two-dimensional grid of cells, where each cell in the grid has an attribute called a state
 * A set of states that a cell can be in
 * A transition function that maps a cell's state and the states of its neighbours to a new state
