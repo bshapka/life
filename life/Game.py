@@ -33,9 +33,9 @@ class Game:
 
         :returns None
         """
-        self.screen_dimensions = Game.__get_screen_dimensions()
+        self.__screen_dimensions = Game.__get_screen_dimensions()
         self.__validate_cell_size(cell_size)
-        self.cell_size = cell_size
+        self.__cell_size = cell_size
         if initial_state is not None:
             self.world = World(initial_state)
         else:
@@ -67,7 +67,7 @@ class Game:
         if cell_size < 0:
             raise ValueError("The cell_size cannot be negative.")
 
-        cell_is_too_big = any(dim for dim in self.screen_dimensions if cell_size > dim)
+        cell_is_too_big = any(dim for dim in self.__screen_dimensions if cell_size > dim)
         if cell_is_too_big:
             raise ValueError("The cell_size must not exceed any of the screen's dimensions.")
 
@@ -84,11 +84,11 @@ class Game:
         if density < 0 or density > 1:
             raise ValueError("The value of density must be in the interval [0, 1].")
 
-        screen_area = functools.reduce(operator.mul, self.screen_dimensions, 1)
-        cell_area = self.cell_size ** 2
+        screen_area = functools.reduce(operator.mul, self.__screen_dimensions, 1)
+        cell_area = self.__cell_size ** 2
         total_cells = screen_area // cell_area
         desired_cells = int(total_cells * density)
-        max_coordinate = Coordinate(*(d // self.cell_size for d in self.screen_dimensions))
+        max_coordinate = Coordinate(*(d // self.__cell_size for d in self.__screen_dimensions))
         candidates = [
             Coordinate(i, j)
             for i in range(max_coordinate.x + 1) for j in range(max_coordinate.y + 1)
@@ -118,19 +118,19 @@ class Game:
 
             :returns the given coordinate adjusted for toroidal geometry and scaled by cell_size
             """
-            scaled_coordinate = (c * self.cell_size for c in coordinate)
+            scaled_coordinate = (c * self.__cell_size for c in coordinate)
             scaled_coordinate = tuple(
-                operator.mod(*entry) for entry in zip(scaled_coordinate, self.screen_dimensions)
+                operator.mod(*entry) for entry in zip(scaled_coordinate, self.__screen_dimensions)
             )
             return scaled_coordinate
 
         pygame.init()
-        surface = pygame.display.set_mode(self.screen_dimensions, pygame.FULLSCREEN)
+        surface = pygame.display.set_mode(self.__screen_dimensions, pygame.FULLSCREEN)
         colours = {'white': (255,) * 3, 'green': (0, 175, 0)}
         while not pygame.event.get(pygame.QUIT):
             surface.fill(colours['white'])
-            for coordinate in self.world.get_state():
-                cell = pygame.Rect(scaled_coordinate(coordinate), (self.cell_size,) * 2)
+            for coordinate in self.world.state:
+                cell = pygame.Rect(scaled_coordinate(coordinate), (self.__cell_size,) * 2)
                 pygame.draw.rect(surface, colours['green'], cell)
             pygame.display.flip()
             self.world.next_state()

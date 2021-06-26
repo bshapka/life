@@ -18,7 +18,7 @@ class World:
         next_state() -> None
             updates state by applying the rules of the game
 
-        get_state() -> Set[Coordinate]
+        state() -> Set[Coordinate]
             returns state
     """
 
@@ -31,7 +31,7 @@ class World:
         :returns None
         """
         World.__validate_state(initial_state)
-        self.state = initial_state
+        self.__state = initial_state
 
     @staticmethod
     def __validate_state(state: Set[Coordinate]) -> None:
@@ -65,13 +65,14 @@ class World:
                     error_message += "A Coordinate in the set contains an element that is not of type int."
                     raise TypeError(error_message)
 
-    def get_state(self) -> Set[Coordinate]:
+    @property
+    def state(self) -> Set[Coordinate]:
         """
         returns state
 
         :returns state
         """
-        return self.state
+        return self.__state
 
     def next_state(self) -> None:
         """
@@ -99,10 +100,10 @@ class World:
             ]
             return region
 
-        candidates = functools.reduce(operator.iconcat, map(region, self.state), [])
+        candidates = functools.reduce(operator.iconcat, map(region, self.__state), [])
         counted_candidates = collections.Counter(candidates)
         next_state = {
             coordinate for coordinate, count in counted_candidates.items()
-            if count == 3 or (count == 4 and coordinate in self.state)
+            if count == 3 or (count == 4 and coordinate in self.__state)
         }
-        self.state = next_state
+        self.__state = next_state
