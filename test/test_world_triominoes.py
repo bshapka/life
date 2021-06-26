@@ -1,5 +1,5 @@
-from life.World import World
-from life.Coordinate import Coordinate
+from life.world import World
+from life.coordinate import Coordinate
 import pytest
 
 class TestWorldTriominoes():

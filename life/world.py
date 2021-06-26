@@ -2,7 +2,7 @@ import collections
 import functools
 import operator
 from typing import List, Set
-from life.Coordinate import Coordinate
+from life.coordinate import Coordinate
 
 class World:
     """

@@ -1,7 +1,7 @@
 import pygame
 import pytest
 
-from life.Game import Game
+from life.game import Game
 
 
 class TestGameInvalidCellSizes():

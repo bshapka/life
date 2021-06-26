@@ -2,9 +2,9 @@ import functools
 import operator
 from typing import Set
 import pygame
-from life.World import World
+from life.world import World
 import random as rand
-from life.Coordinate import Coordinate
+from life.coordinate import Coordinate
 
 
 class Game:
