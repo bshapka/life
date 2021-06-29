@@ -1,35 +1,11 @@
 # Life in Python
 This project is an implementation of Conway's Game of Life (or Life for short) in Python.
 
-## About the code
-The source code of this project was written in Python. Here is a high-level summary of the sources:
-* The root directory contains the script `life.py` which can be used to start the game from the 
-command line
-* The root directory contains a package called `life` which contains three classes, `coordinate.py`,
-`world.py`, and `game.py`.
-The latter two classes are extensively documented in their source files, so those details won't be 
-repeated here. The class `coordinate.py` is just a NamedTuple representing an ordered pair in the xy plane.
+## About Life
+For information about the game, see [About Life](https://github.com/bshapka/life-in-x/blob/main/ABOUT_LIFE.md).
+For information about tne creator of the game, see [About John Conway](https://github.com/bshapka/life-in-x/blob/main/ABOUT_CONWAY.md).
 
-### Implementation Details
-This sub-section assumes basic familiarity with Life. If you are not familiar with Life but want to 
-read this section, please read the section [About Life](#about-life) below, or consult a source like 
-Wikipedia on the game.
-
-Common implementations of Life (including the first release of this project) represent the state of 
-a world as a 2D list of bits or booleans. Typically a live cell is truthy while a dead cell is falsy. 
-While this approach is intuitive, dead calls don't need to be tracked, and doing so can have notable 
-costs in terms of memory usage.
-
-An alternative approach is to store only the coordinates of live cells, requiring significantly less
-memory. By representing coordinates as tuples and storing them in a set, further efficiencies are 
-gained via hashing. This is the approach taken for the second release. 
-
-The second release uses a toroidal grid. As such, objects that leave the screen on one edge will 
-re-enter the screen with the same trajectory and velocity at the equivalent location on the opposing
-edge.
-
-### Running the Project
-
+## Running the Project
 The following is a set of recommended directions for running the project. Note that these directions
 assume a Python 3 interpreter exists and that it has been associated with the shell command `python3`.
 * Start a shell session and navigate to the root directory of the project/cloned repo
@@ -41,49 +17,29 @@ Python 3 setup
 packages
 
 From the root of the project directory, you should now be able to do the following:
-* To the play the game, run the command `./venv/bin/python3 life.py`
+* To play the game, run the command `./venv/bin/python3 life.py`
 * To run all tests, run the command `./venv/bin/python3 -m pytest test/`
 
 When you are done, you can deactivate the venv using the command `deactivate`. If you want to run 
 the game or tests again after deactivating the venv, first reactivate the venv using the command 
 above.
 
-## About Life
-Life is a cellular automation created by the English mathematician John Conway. As a cellular automation, 
-Life has the following elements:
-* A two-dimensional grid of cells, where each cell in the grid has an attribute called a state
-* A set of states that a cell can be in
-* A transition function that maps a cell's state and the states of its neighbours to a new state
+## Implementation Details
+This section assumes basic familiarity with Life. If you are not familiar with Life but want to 
+read this section, please read the section [About Life](https://github.com/bshapka/life-in-x/blob/main/ABOUT_LIFE.md), 
+or consult a source like Wikipedia on the game.
 
-For Life in particular:
-* A cell can be in one of two states: dead or live
-* The transition function consists of the following rules:
-    * If a cell is live and has 2 or 3 live neighbours, the cell's next state is live
-    * If a cell is dead but has 3 live neighbours, the cell's next state is live
-    * All other cells have a next state of dead
-    
-Note that for Life, a cell's neighbours are defined using the 
-[Moore neighbourhood](https://en.wikipedia.org/wiki/Moore_neighborhood) definition.
+All source files are well-documented, so explanations of or details about these files will not be supplied here.
 
-The game is played by setting an initial state, and then repeatedly applying the rules of the game 
-to generate successive states.
+Common implementations of Life represent the state of a world as a 2D list of bits or booleans. Typically 
+a live cell is truthy while a dead cell is falsy. While this approach is intuitive, dead calls don't need
+to be stored, and doing so can have notable costs in terms of memory usage.
 
-Life is interesting for several reasons:
-* Emergence: repeated application of simple rules to a simple initial state can result in very 
-complex and intricate future states
-* Undecidability: no algorithm can take two states and determine if application of the rules
-to one of the states will yield the other state
-* Turing completeness: the game can theoretically simulate any Turing machine
-* Self-similarity: the game can be implemented in itself 
-(see [Life in Life](https://www.youtube.com/watch?v=xP5-iIeKXE8))
+An alternative approach is to store only the coordinates of live cells, requiring significantly less
+memory. By representing coordinates as tuples and storing them in a set, further efficiencies are 
+gained via hashing.
 
-## About John Conway
-John Horton Conway (1937 – 2020) was an English mathematician. Born in Liverpool, Conway resolved 
-at the young age of 11 to become a mathematician at Cambridge. He graduated with his Ph.D. from 
-Cambridge in 1964, and he retired in 2013. In addition to his long and influential career as 
-a researcher, Conway was lauded for being a kind and eccentric character and a gifted expositor of 
-mathematics. For a full account of Conway’s life, see the book Genius at Play: The Curious Mind of 
-John Horton Conway by Siobhan Roberts. Conway passed away on Saturday, April 11, 2020, from 
-COVID-19. He was 82. 
-
+This implementation uses a toroidal grid. As such, objects that leave the screen on one edge will 
+re-enter the screen with the same trajectory and velocity at the equivalent location on the opposing
+edge.
 
