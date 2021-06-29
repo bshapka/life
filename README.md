@@ -8,6 +8,8 @@ For information about tne creator of the game, see [About John Conway](https://g
 ## Running the Project
 The following is a set of recommended directions for running the project. Note that these directions
 assume a Python 3 interpreter exists and that it has been associated with the shell command `python3`.
+The project was developed and tested with version 3.8.2 of Python. Compatibility with previous versions 
+is not guaranteed.
 * Start a shell session and navigate to the root directory of the project/cloned repo
 * Run the command `python3 -m venv venv` to create a Python 3 virtual environment (venv) using your
 Python 3 setup
