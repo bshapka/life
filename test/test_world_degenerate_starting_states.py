@@ -9,7 +9,7 @@ class TestWorldDegenerateStartingStates():
         world = World(starting_state)
         world.next_state()
         next_state = world.state
-        expected_state = {(-1, 2), (0, 2), (1, 2)}
+        expected_state = {Coordinate(*c) for c in {(-1, 2), (0, 2), (1, 2)}}
         assert expected_state == next_state
         world.next_state()
         next_state = world.state
@@ -21,7 +21,7 @@ class TestWorldDegenerateStartingStates():
         world = World(starting_state)
         world.next_state()
         next_state = world.state
-        expected_state = {(2, -1), (2, 0), (2, 1)}
+        expected_state = {Coordinate(*c) for c in {(2, -1), (2, 0), (2, 1)}}
         assert expected_state == next_state
         world.next_state()
         next_state = world.state
