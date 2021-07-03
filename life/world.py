@@ -80,30 +80,33 @@ class World:
 
         :returns None
         """
-        def region(coordinate: Coordinate) -> List[Coordinate]:
+        def get_neighbours(coordinates: List[Coordinate]) -> List[Coordinate]:
             """
-            returns the list of coordinates of the region around the given coordinate
+            returns the coordinates of the neighbours of the coordinates in the given list
 
-            The region around a given coordinate is defined here to be the union of a) the Moore
-            neighbourhood around the given coordinate and b) the given coordinate itself. In other
-            words, the region around a coordinate is the coordinate itself plus the 8 closest other
-            coordinates.
+            The neighbourhood around a given coordinate is defined to be the the Moore neighbourhood
+            around that coordinate. In other words, the neighbourhood around a given coordinate is
+            the 8 closest other coordinates.
 
-            :param coordinate: a tuple of form (x, y) giving the coordinate of a live cell in state
+            :param coordinates: a list of tuples of form (x, y) giving the coordinate of a live cell
+                   in state
 
-            :returns the list of coordinates of the region around the given coordinate
+            :returns the coordinates of the neighbours of the coordinates in the given list
             """
-            offsets = range(-1, 2)
-            region = [
-                Coordinate(coordinate.x + row_offset, coordinate.y + col_offset)
-                for row_offset in offsets for col_offset in offsets
+            offset = range(-1, 2)
+            neighbours = [
+                Coordinate(coordinate.x + x_offset, coordinate.y + y_offset)
+                for coordinate in coordinates
+                for x_offset in offset
+                for y_offset in offset
+                if not (x_offset == y_offset == 0)
             ]
-            return region
+            return neighbours
 
-        candidates = functools.reduce(operator.iconcat, map(region, self.__state), [])
-        counted_candidates = collections.Counter(candidates)
+        neighbours = get_neighbours(self.state)
+        counted_neighbours = collections.Counter(neighbours)
         next_state = {
-            coordinate for coordinate, count in counted_candidates.items()
-            if count == 3 or (count == 4 and coordinate in self.__state)
+            coordinate for coordinate, count in counted_neighbours.items()
+            if count == 3 or (count == 2 and coordinate in self.__state)
         }
         self.__state = next_state
